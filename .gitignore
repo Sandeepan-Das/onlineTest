@@ -1,0 +1,5 @@
+backEnd/node_modules
+backEnd/config/dev.env
+.vscode/launch.json
+.vscode/settings.json
+backEnd/tests
