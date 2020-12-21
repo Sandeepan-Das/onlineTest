@@ -1,0 +1,79 @@
+<div class="wrapper">
+    <div class="title">
+        Create Test
+    </div>
+    <div class="form" >
+        <div class="inputfield">
+            <label>No. of questions</label>
+            <input type="text" class="input" [(ngModel)]="test.totalQuestions">
+        </div>
+        <hr>
+        <h3 style="text-align: center;">Time Limit</h3>
+        <div class="inputfield">
+            <label>Easy</label>
+            <input type="text" class="input" [(ngModel)]="test.timeLimit.Easy">
+        </div>
+        <div class="inputfield">
+            <label>Medium</label>
+            <input type="text" class="input" [(ngModel)]="test.timeLimit.Medium">
+        </div>
+        <div class="inputfield">
+            <label>Difficult</label>
+            <input type="text" class="input" [(ngModel)]="test.timeLimit.Difficult">
+        </div>
+        <hr>
+        <h3 style="text-align: center;">No. Of questions of each type</h3>
+        <div class="inputfield">
+            <label>Easy</label>
+            <input type="text" class="input" [(ngModel)]="test.eachType.Easy">
+        </div>
+        <div class="inputfield">
+            <label>Medium</label>
+            <input type="text" class="input" [(ngModel)]="test.eachType.Medium">
+        </div>
+        <div class="inputfield">
+            <label>Difficult</label>
+            <input type="text" class="input" [(ngModel)]="test.eachType.Difficult">
+        </div>
+        <hr>
+        <h3 style="text-align: center;">Marks for each type</h3>
+        <div class="inputfield">
+            <label>Easy</label>
+            <input type="text" class="input" [(ngModel)]="test.marks.Easy">
+        </div>
+        <div class="inputfield">
+            <label>Medium</label>
+            <input type="text" class="input" [(ngModel)]="test.marks.Medium">
+        </div>
+        <div class="inputfield">
+            <label>Difficult</label>
+            <input type="text" class="input" [(ngModel)]="test.marks.Difficult">
+        </div>
+        <!-- <div class="inputfield">
+            <label>Email Address</label>
+            <input type="text" class="input">
+        </div>
+        <div class="inputfield">
+            <label>Phone Number</label>
+            <input type="text" class="input">
+        </div>
+        <div class="inputfield">
+            <label>Address</label>
+            <textarea class="textarea"></textarea>
+        </div>
+        <div class="inputfield">
+            <label>Postal Code</label>
+            <input type="text" class="input">
+        </div>
+        <div class="inputfield terms">
+            <label class="check">
+                <input type="checkbox">
+                <span class="checkmark"></span>
+            </label>
+            <p>Agreed to terms and conditions</p>
+        </div> -->
+        <div class="inputfield">
+            <input type="submit" value="Register" class="btn" (click)="submit()">
+        </div>
+    </div>
+</div>

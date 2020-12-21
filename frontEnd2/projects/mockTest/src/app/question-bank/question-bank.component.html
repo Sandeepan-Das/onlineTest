@@ -1,0 +1,45 @@
+<div class="blackboard">
+        
+
+        <div class="form">
+                <p>
+                        <label>Question: </label>
+                        <input type="text" [(ngModel)]="questionPattern.question" />
+                </p>
+                <p>
+                        <label>OptionA: </label>
+                        <input type="text" [(ngModel)]="questionPattern.OptA" />
+                </p>
+                <p>
+                        <label>OptionB: </label>
+                        <input type="text" [(ngModel)]="questionPattern.OptB" />
+                </p>
+                <p>
+                        <label>OptionC: </label>
+                        <input type="text" [(ngModel)]="questionPattern.OptC" />
+                </p>
+                <p>
+                        <label>OptionD: </label>
+                        <input type="text" [(ngModel)]="questionPattern.OptD" />
+                </p>
+                <p>
+                        <label>Ans: </label>
+                        <input type="text" [(ngModel)]="questionPattern.ans" />
+                </p>
+                <p>
+                        <label>Difficulty Level</label>
+                        <select (change)="difficultyLevel($event)">
+                                <option selected>Choose...</option>
+                                <option>Easy</option>
+                                <option>Medium</option>
+                                <option>Hard</option>
+                        </select>
+                </p>
+
+                <p class="wipeout">
+                        <input type="submit" value="Fetch" (click)="fromApi()" />
+                        <input type="submit" value="Send" (click)="submit()" />
+                        <input type="reset" value="Wipe Board" (click)="wipe_board()" />
+                </p>
+        </div>
+</div>

@@ -1,0 +1,15 @@
+<div class="input-group mb-3">
+  <input
+    type="text"
+    class="form-control"
+    placeholder="Student's Email"
+    aria-label="Recipient's username"
+    aria-describedby="button-addon2"
+    [(ngModel)]="studEmail"
+  />
+  <div class="input-group-append">
+    <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="addStud()">
+      Add in list
+    </button>
+  </div>
+</div>

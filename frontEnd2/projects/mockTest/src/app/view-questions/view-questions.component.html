@@ -1,0 +1,26 @@
+<div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
+      aria-expanded="false">Difficulty Level</button>
+    <select (change)="difficultyLevel($event)">
+      <option selected>Choose...</option>
+      <option>Easy</option>
+      <option>Medium</option>
+      <option>Difficult</option>
+    </select>
+  </div>
+  <input type="text" class="form-control" aria-label="Text input with dropdown button">
+</div>
+<div class="card" *ngFor="let item of display_data">
+  <div class="card-header">
+    {{display_data.question}}
+  </div>
+  <div class="card-body">
+    <!-- <h5 class="card-title">Special title treatment</h5> -->
+    <p class="card-text">{{item.OptA}}</p>
+    <p class="card-text">{{item.OptB}}</p>
+    <p class="card-text">{{item.OptC}}</p>
+    <p class="card-text">{{item.OptD}}</p>
+    <a  class="btn btn-primary">{{item.ans}}</a>
+  </div>
+</div>

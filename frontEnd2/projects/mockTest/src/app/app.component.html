@@ -1,0 +1,96 @@
+<div
+  class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm"
+>
+  <h5 class="my-0 mr-md-auto font-weight-normal">Black Hat ltd.</h5>
+  <nav class="my-2 my-md-0 mr-md-3">
+    <a class="p-2 text-dark" href="#">Features</a>
+    <a class="p-2 text-dark" href="#">Enterprise</a>
+    <a class="p-2 text-dark" href="#">Support</a>
+    <a class="p-2 text-dark" href="#">Pricing</a>
+  </nav>
+  <a
+    class="btn btn-outline-primary"
+    [routerLink]="['/Login']"
+    routerLinkActive="router-link-active"
+    *ngIf="Login; else logOut"
+    (click)="login()"
+    >Log In</a
+  >
+  <ng-template #logOut>
+    <a class="btn btn-outline-primary">Log Out</a>
+  </ng-template>
+</div>
+
+<div class="row">
+  <div class="col-4">
+    <div class="list-group" id="list-tab" role="tablist">
+      <a
+        class="list-group-item list-group-item-action active"
+        id="list-home-list"
+        data-toggle="list"
+        href="#list-home"
+        role="tab"
+        aria-controls="home"
+        >DashBoard</a
+      >
+      <a
+        class="list-group-item list-group-item-action"
+        id="list-profile-list"
+        data-toggle="list"
+        href="#list-profile"
+        role="tab"
+        aria-controls="profile"
+        [routerLink]="['/add-question']"
+        routerLinkActive="router-link-active"
+        >Add Question</a
+      >
+      <a
+        class="list-group-item list-group-item-action"
+        id="list-messages-list"
+        data-toggle="list"
+        href="#list-messages"
+        role="tab"
+        aria-controls="messages"
+        [routerLink]="['/FetchQuestion']"
+        routerLinkActive="router-link-active"
+        >View Question Bank</a
+      >
+      <a
+        class="list-group-item list-group-item-action"
+        id="list-messages-list"
+        data-toggle="list"
+        href="#list-messages"
+        role="tab"
+        aria-controls="messages"
+        [routerLink]="['/AddStudents']"
+        routerLinkActive="router-link-active"
+        >Add Student</a
+      >
+      <a
+        class="list-group-item list-group-item-action"
+        id="list-settings-list"
+        data-toggle="list"
+        href="#list-settings"
+        role="tab"
+        aria-controls="settings"
+        [routerLink]="['/createTest']"
+        routerLinkActive="router-link-active"
+        >Create Test</a
+      >
+      <a
+        class="list-group-item list-group-item-action"
+        id="list-settings-list"
+        data-toggle="list"
+        href="#list-settings"
+        role="tab"
+        aria-controls="settings"
+        [routerLink]="['/mockTest']"
+        routerLinkActive="router-link-active"
+        >Mock Test</a
+      >
+    </div>
+  </div>
+  <div class="col-8">
+    <router-outlet></router-outlet>
+  </div>
+</div>
