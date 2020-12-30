@@ -113,6 +113,7 @@ router.get("/mockTest/testParameter", auth, async (req, res) => {
       difficultyLevel = data.level;
       marks = data.marks;
       timeLimit = data.timeLimit;
+      console.log(arg);
     });
     await user
       .populate(`questions.${difficultyLevel}`)
@@ -150,7 +151,7 @@ router.get("/mockTest/testParameter", auth, async (req, res) => {
   }
 });
 
-//Route to display result
+//Route to display result for mockTest
 router.post("/mockTest/ans", auth, async (req, res) => {
   const user = req.user;
 
@@ -163,70 +164,83 @@ router.post("/mockTest/ans", auth, async (req, res) => {
 
   res.send({ marks });
 });
-
-//Route to appear test
-router.get("/test/", verifyStud, async (req, res) => {
-  const teacher = req.teacher;
+router.post("/userTest/ans", verifyStud, async (req, res) => {
   const user = await studModel.findOne({ email: req.studEmail });
-  if (user == undefined) {
-     user = new studModel({ email: req.studEmail });
-    await user.save();
-  }
 
-  user.questions = teacher.questions;
+  let marks = totalMarks(
+    user.mockTest.answer,
+    req.body,
+    user.mockTest.marks,
+    user.mockTest.sequence
+  );
 
-  user.mockTest = teacher.mockTest;
-  user.save();
+  res.send({ marks });
+});
 
-  res.render("./frontEnd/src/test/test.component.html")
+//Route to appear test by student
+router.get("/Finaltest", verifyStud, async (req, res) => {
+  const teacher = req.teacher;
+  let user = await studModel.findOne({ email: req.studEmail });
   var data;
   var difficultyLevel;
-  // if (user.mockTest.attempted != user.mockTest.totalQuestions) {
-  //     user.mockTest.attempted += 1;
-  //     await user.save()
-  //     await questionToSend(user._id).then((arg) => {
-  //         data = arg;
+  if (user.mockTest.attempted != user.mockTest.totalQuestions) {
+    user.mockTest.attempted += 1;
+    await user.save();
+    await questionToSend(user._id).then((arg) => {
+      data = arg;
 
-  //         difficultyLevel = data.level;
-  //         marks = data.marks;
-  //         timeLimit = data.timeLimit
-  //     })
-  //     await user.populate(`questions.${difficultyLevel}`).execPopulate(async (err, arg) => {
-  //         await user.updateAnswer(difficultyLevel, arg.questions, data.questionNo)
-  //         if (difficultyLevel == "Easy") {
+      difficultyLevel = data.level;
+      marks = data.marks;
+      timeLimit = data.timeLimit;
+    });
 
-  //             res.send({
-  //                 questionDetails: arg.questions.Easy[data.questionNo],
-  //                 difficultyLevel, marks,
-  //                 timeLimit
-  //             })
+    await user
+      .populate(`questions.${difficultyLevel}`)
+      .execPopulate(async (err, arg) => {
+        await user.updateAnswer(
+          difficultyLevel,
+          arg.questions,
+          data.questionNo
+        );
+        if (difficultyLevel == "Easy") {
+          res.send({
+            questionDetails: arg.questions.Easy[data.questionNo],
+            difficultyLevel,
+            marks,
+            timeLimit,
+          });
+        } else if (difficultyLevel == "Medium") {
+          res.send({
+            questionDetails: arg.questions.Medium[data.questionNo],
+            difficultyLevel,
+            marks,
+            timeLimit,
+          });
+        } else if (difficultyLevel == "Difficult") {
+          res.send({
+            questionDetails: arg.questions.Difficult[data.questionNo],
+            difficultyLevel,
+            marks,
+            timeLimit,
+          });
+        }
+      });
+  } else {
+    res.sendStatus(400);
+  }
+});
 
-  //         }
-  //         else if (difficultyLevel == "Medium") {
+//Route to initialize account
+router.post("/attemptTest",verifyStud, async (req, res) => {
+  const teacher = req.teacher;
+  let user = await studModel.findOneAndDelete({ email: req.studEmail });
+ 
+  user = new studModel({ email: req.studEmail });
+    user.questions = teacher.questions;
 
-  //             res.send({
-  //                 questionDetails: arg.questions.Medium[data.questionNo],
-  //                 difficultyLevel, marks,
-  //                 timeLimit
-  //             })
+    user.mockTest = teacher.mockTest;
 
-  //         }
-  //         else if (difficultyLevel == "Difficult") {
-
-  //             res.send({
-  //                 questionDetails: arg.questions.Difficult[data.questionNo],
-  //                 difficultyLevel,
-  //                 marks,
-  //                 timeLimit
-  //             })
-
-  //         }
-  //     })
-  // }
-  // else {
-  //     res.sendStatus(400)
-
-  // }
+    await user.save();
 });
 
 //Adding Student Email ID

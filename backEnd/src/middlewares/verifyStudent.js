@@ -1,11 +1,12 @@
-const userModel = require("../Models/UserLogin")
-const url =require("url")
+const userModel = require("../Models/UserLogin");
+const url = require("url");
 
 const verifyStud = async (req, res, next) => {
-    const queryObject = url.parse(req.url,true).query;
-    
-    const teacherCode = queryObject.tcode;     //tcode,   scode
-    const teacher = await userModel.findOne({ unique: teacherCode })
+  try {
+    const queryObject = url.parse(req.url, true).query;
+
+    const teacherCode = queryObject.tcode; //tcode,   scode
+    const teacher = await userModel.findOne({ unique: teacherCode });
 
     req.teacher = teacher;
     req.studEmail = queryObject.scode;
@@ -13,7 +14,9 @@ const verifyStud = async (req, res, next) => {
     //     if (req.body.email == element) next();
     // });
     next();
-    throw new Error("You are not invited")
-}
+  } catch (error) {
+    throw new Error("You are not invited");
+  }
+};
 
 module.exports = verifyStud;

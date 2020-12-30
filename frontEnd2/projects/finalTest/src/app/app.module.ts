@@ -1,16 +1,26 @@
+import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { TestFormatComponent } from './test-format/test-format.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    TestFormatComponent,
+    
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

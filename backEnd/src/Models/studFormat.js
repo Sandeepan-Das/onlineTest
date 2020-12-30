@@ -80,6 +80,26 @@ const studSchema = mongoose.Schema({
   },
 });
 
+studSchema.methods.updateAnswer = async function (level, arg, questionNo) {
+  if (level == "Easy") {
+    arg = arg.Easy[questionNo].ans;
+    // pushtoAnswer(,level);
+  } else if (level == "Medium") {
+    arg = arg.Medium[questionNo].ans;
+    // pushtoAnswer(,level);
+  } else if (level == "Difficult") {
+    arg = arg.Difficult[questionNo].ans;
+    // pushtoAnswer(,level);
+  }
+
+  this.mockTest.answer.push(arg);
+  this.mockTest.answer.shift();
+  this.mockTest.sequence.push(level);
+  this.mockTest.sequence.shift();
+
+  await this.save();
+};
+
 const studModel = mongoose.model("studentList", studSchema);
 
 module.exports = studModel;

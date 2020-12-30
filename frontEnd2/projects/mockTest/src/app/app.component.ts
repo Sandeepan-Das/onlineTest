@@ -11,7 +11,7 @@ export class AppComponent {
   constructor() { }
 
   ngOnInit(): void {
-    console.log("Inside onit")
+    
     this.hide_login = true;
     if(localStorage.getItem("token"))
     {
@@ -20,6 +20,11 @@ export class AppComponent {
   }
   login() {
     this.hide_login = false;
+  }
+  logout(){
+    this.hide_login = true;
+    localStorage.removeItem("token")
+    this.ngOnInit();
   }
 
 
