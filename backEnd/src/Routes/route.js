@@ -49,7 +49,7 @@ router.post("/questionBank", auth, async (req, res) => {
 
 //Creating a new user
 router.post("/users", async (req, res) => {
-  req.body.unique = base_64.encode(req.body.email);
+  req.body.unique = base_64.encode(req.body.email); //Unique identification for the teacher
   userLogin = new userLoginModel(req.body);
   try {
     const data = await userLogin.save();
@@ -90,6 +90,25 @@ router.get("/test/getquestion/:difficultyLevel", auth, async (req, res) => {
         res.send(data.questions.Difficult);
       }
     });
+});
+// To display all questions
+router.get("/test/getallquestion/:difficultyLevel", auth, async (req, res) => {
+  //What to reference inside userLogin in populate field
+  let difficultyLevel = req.params.difficultyLevel;
+  if (difficultyLevel == "Easy") {
+    const data = questionBankModel.easy.find({},(err,result)=>{
+      res.send(result);
+    })
+   
+  } else if (difficultyLevel == "Medium") {
+    const data = questionBankModel.medium.find({},(err,result)=>{
+      res.send(result);
+    })
+  } else if (difficultyLevel == "Difficult") {
+    const data = questionBankModel.difficult.find({},(err,result)=>{
+      res.send(result);
+    })
+  }
 });
 
 //Route to pass test parameter
@@ -231,16 +250,16 @@ router.get("/Finaltest", verifyStud, async (req, res) => {
 });
 
 //Route to initialize account
-router.post("/attemptTest",verifyStud, async (req, res) => {
+router.post("/attemptTest", verifyStud, async (req, res) => {
   const teacher = req.teacher;
   let user = await studModel.findOneAndDelete({ email: req.studEmail });
- 
+
   user = new studModel({ email: req.studEmail });
-    user.questions = teacher.questions;
+  user.questions = teacher.questions;
 
-    user.mockTest = teacher.mockTest;
+  user.mockTest = teacher.mockTest;
 
-    await user.save();
+  await user.save();
 });
 
 //Adding Student Email ID

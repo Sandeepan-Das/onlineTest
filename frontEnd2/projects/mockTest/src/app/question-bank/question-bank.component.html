@@ -1,45 +1,68 @@
 <div class="blackboard">
-        
+  <div class="form">
+    <p>
+      <label>Question: </label>
+      <input type="text" [(ngModel)]="questionPattern.question" />
+    </p>
+    <p>
+      <label>OptionA: </label>
+      <input type="text" [(ngModel)]="questionPattern.OptA" />
+    </p>
+    <p>
+      <label>OptionB: </label>
+      <input type="text" [(ngModel)]="questionPattern.OptB" />
+    </p>
+    <p>
+      <label>OptionC: </label>
+      <input type="text" [(ngModel)]="questionPattern.OptC" />
+    </p>
+    <p>
+      <label>OptionD: </label>
+      <input type="text" [(ngModel)]="questionPattern.OptD" />
+    </p>
+    <p>
+      <label>Ans: </label>
+      <input type="text" [(ngModel)]="questionPattern.ans" />
+    </p>
+    <p>
+      <label>Difficulty Level</label>
+      <select (change)="difficultyLevel($event)">
+        <option selected>Choose...</option>
+        <option>Easy</option>
+        <option>Medium</option>
+        <option>Hard</option>
+      </select>
+    </p>
 
-        <div class="form">
-                <p>
-                        <label>Question: </label>
-                        <input type="text" [(ngModel)]="questionPattern.question" />
-                </p>
-                <p>
-                        <label>OptionA: </label>
-                        <input type="text" [(ngModel)]="questionPattern.OptA" />
-                </p>
-                <p>
-                        <label>OptionB: </label>
-                        <input type="text" [(ngModel)]="questionPattern.OptB" />
-                </p>
-                <p>
-                        <label>OptionC: </label>
-                        <input type="text" [(ngModel)]="questionPattern.OptC" />
-                </p>
-                <p>
-                        <label>OptionD: </label>
-                        <input type="text" [(ngModel)]="questionPattern.OptD" />
-                </p>
-                <p>
-                        <label>Ans: </label>
-                        <input type="text" [(ngModel)]="questionPattern.ans" />
-                </p>
-                <p>
-                        <label>Difficulty Level</label>
-                        <select (change)="difficultyLevel($event)">
-                                <option selected>Choose...</option>
-                                <option>Easy</option>
-                                <option>Medium</option>
-                                <option>Hard</option>
-                        </select>
-                </p>
+    <p class="wipeout">
+      <input type="submit" value="Fetch " (click)="fromApi()" />
+      <input type="submit" value="Save" (click)="submit()" />
+      <input type="reset" value="Wipe" (click)="wipe_board()" />
+    </p>
+  </div>
+</div>
 
-                <p class="wipeout">
-                        <input type="submit" value="Fetch" (click)="fromApi()" />
-                        <input type="submit" value="Send" (click)="submit()" />
-                        <input type="reset" value="Wipe Board" (click)="wipe_board()" />
-                </p>
-        </div>
+<div class="modal" tabindex="-1" *ngIf="saveOptions">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p>Modal body text goes here.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,3 +1,4 @@
+import { signUpformat } from './login/signUpformat';
 import { testRequirements } from './create-test/testRequirements';
 
 import { loginFormat } from './login/loginFormat';
@@ -20,7 +21,7 @@ export class OnlineTestService {
   constructor(public http: HttpClient) {}
 
   async addQuestion(value: questionFormat) {
-    console.log(value.ans);
+    
     return await this.http
       .post('http://localhost:3000/api/questionBank', value, this.authHeader)
       .toPromise();
@@ -28,9 +29,18 @@ export class OnlineTestService {
   login(value: loginFormat): Observable<any> {
     return this.http.post('http://localhost:3000/api/users/login', value);
   }
+  signUp(value: signUpformat): Observable<any> {
+    return this.http.post('http://localhost:3000/api/users', value);
+  }
   Fetchquestion(value): Observable<any> {
     return this.http.get(
       'http://localhost:3000/api/test/getquestion/' + value,
+      this.authHeader
+    );
+  }
+  Fetchallquestion(value): Observable<any> {
+    return this.http.get(
+      'http://localhost:3000/api/test/getallquestion/' + value,
       this.authHeader
     );
   }

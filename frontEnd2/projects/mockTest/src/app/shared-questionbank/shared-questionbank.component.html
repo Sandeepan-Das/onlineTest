@@ -1,0 +1,26 @@
+<div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <h3><p>Choose a Difficulty Level</p></h3>
+      <select (change)="difficultyLevel($event)">
+        <option selected>Choose...</option>
+        <option>Easy</option>
+        <option>Medium</option>
+        <option>Difficult</option>
+      </select>
+    </div>
+    
+  </div>
+  <div class="card" *ngFor="let item of display_data">
+    <div class="card-header">
+      {{item.question}}
+    </div>
+    <div class="card-body">
+            <p class="card-text">A: {{item.OptA}}</p>
+      <p class="card-text">B: {{item.OptB}}</p>
+      <p class="card-text">C: {{item.OptC}}</p>
+      <p class="card-text">D: {{item.OptD}}</p>
+      <p  class="card-text">Ans: {{item.ans}}</p>
+    </div>
+  </div>
+
+  <p>Hello</p>

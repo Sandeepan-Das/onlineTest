@@ -1,12 +1,13 @@
-import { OnlineTestService } from './../online-test.service';
+
 import { Component, OnInit } from '@angular/core';
+import { OnlineTestService } from '../online-test.service';
 
 @Component({
-  selector: 'app-view-questions',
-  templateUrl: './view-questions.component.html',
-  styleUrls: ['./view-questions.component.css']
+  selector: 'app-shared-questionbank',
+  templateUrl: './shared-questionbank.component.html',
+  styleUrls: ['./shared-questionbank.component.css']
 })
-export class ViewQuestionsComponent implements OnInit {
+export class SharedQuestionbankComponent implements OnInit {
 
   public display_data = [];
   constructor(private service:OnlineTestService) { }
@@ -16,12 +17,13 @@ export class ViewQuestionsComponent implements OnInit {
   difficultyLevel(event){
     this.display_data=[];
     
-    this.service.Fetchquestion(event.target.value).subscribe((data)=>{
+    this.service.Fetchallquestion(event.target.value).subscribe((data)=>{
         data.forEach(element => {
           console.log(element)
           this.display_data.push(element);
         });
     })
+    
 
   }
 

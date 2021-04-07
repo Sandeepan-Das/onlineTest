@@ -1,3 +1,4 @@
+import { SharedQuestionbankComponent } from './shared-questionbank/shared-questionbank.component';
 import { StudListComponent } from './stud-list/stud-list.component';
 import { MockTestComponent } from './mock-test/mock-test.component';
 import { CreateTestComponent } from './create-test/create-test.component';
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'createTest', component: CreateTestComponent },
   { path: 'mockTest', component: MockTestComponent },
   { path: 'AddStudents', component: StudListComponent },
+  { path: 'shareQuestion', component: SharedQuestionbankComponent },
   { path: '', component: StudListComponent },
   { path: ' ', component: AppComponent },
 ];
