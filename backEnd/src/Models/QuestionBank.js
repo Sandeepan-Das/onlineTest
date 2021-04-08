@@ -26,11 +26,13 @@ const questionBankSchema = mongoose.Schema({
         type:String,
         required:true
     },
-    // teacher:{
-    //     type:mongoose.Schema.Types.ObjectId,
-    //     required:true,
-    //     ref:"userModel"
-    // }
+    teacherName:{
+        type:String
+    },
+    teacherId:{
+        type:mongoose.Schema.Types.ObjectId
+        
+    }
 });
 
 const easy = mongoose.model("easy",questionBankSchema);

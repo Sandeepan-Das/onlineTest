@@ -1,3 +1,4 @@
+import { addQuestion } from './shared-questionbank/addQuestion';
 import { signUpformat } from './login/signUpformat';
 import { testRequirements } from './create-test/testRequirements';
 
@@ -51,7 +52,13 @@ export class OnlineTestService {
       this.authHeader
     );
   }
-
+  addQuestionToUser(value:addQuestion):Observable<any>{
+    return this.http.post(
+      'http://localhost:3000/api/addToUser',
+      value,
+      this.authHeader
+    );
+  }
   async getQuestionsFromApi(level) {
     const data = await this.http
       .get(

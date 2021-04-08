@@ -27,7 +27,9 @@ router.post("/questionBank", auth, async (req, res) => {
   let level;
 
   let user = req.user;
-  // req.body.teacher = req.user._id;
+  console.log(req.user);
+  req.body.teacherId = req.user._id;
+  req.body.teacherName = req.user.name;
   if (req.body.difficultyLevel == "Easy") {
     // console.log("A");
     level = new questionBankModel.easy(req.body);
@@ -39,7 +41,8 @@ router.post("/questionBank", auth, async (req, res) => {
   try {
     level = await level.save();
     // Adddig the id of question to users array
-    const add = await user.addQuestiontouser(level._id, level.difficultyLevel);
+
+    // const add = await user.addQuestiontouser(level._id, level.difficultyLevel);
 
     res.send({ level });
   } catch (error) {
@@ -47,6 +50,11 @@ router.post("/questionBank", auth, async (req, res) => {
   }
 });
 
+router.post("/addToUser", auth, async (req, res) => {
+  let user = req.user;
+  console.log(req.body);
+  const add = await user.addQuestiontouser(req.body.arr, req.body.level);
+});
 //Creating a new user
 router.post("/users", async (req, res) => {
   req.body.unique = base_64.encode(req.body.email); //Unique identification for the teacher
@@ -96,18 +104,26 @@ router.get("/test/getallquestion/:difficultyLevel", auth, async (req, res) => {
   //What to reference inside userLogin in populate field
   let difficultyLevel = req.params.difficultyLevel;
   if (difficultyLevel == "Easy") {
-    const data = questionBankModel.easy.find({},(err,result)=>{
-      res.send(result);
-    })
-   
+    const data = questionBankModel.easy.find(
+      { teacherId: { $ne: mongoose.Types.ObjectId(req.user._id)  } },
+      (err, result) => {
+        res.send(result);
+      }
+    );
   } else if (difficultyLevel == "Medium") {
-    const data = questionBankModel.medium.find({},(err,result)=>{
-      res.send(result);
-    })
+    const data = questionBankModel.medium.find(
+      { teacherId: { $ne: mongoose.Types.ObjectId(req.user._id) } },
+      (err, result) => {
+        res.send(result);
+      }
+    );
   } else if (difficultyLevel == "Difficult") {
-    const data = questionBankModel.difficult.find({},(err,result)=>{
-      res.send(result);
-    })
+    const data = questionBankModel.difficult.find(
+      { teacherId: { $ne:mongoose.Types.ObjectId(req.user._id) } },
+      (err, result) => {
+        res.send(result);
+      }
+    );
   }
 });
 

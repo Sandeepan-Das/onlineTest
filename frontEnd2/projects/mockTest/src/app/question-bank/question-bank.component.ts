@@ -33,7 +33,7 @@ export class QuestionBankComponent implements OnInit {
 
   difficultyLevel(event: any) {
     this.questionPattern.difficultyLevel = event.target.value;
-    console.log(this.questionPattern.difficultyLevel);
+    
   }
   wipe_board() {
     this.questionPattern.OptA = '';

@@ -1,3 +1,4 @@
+import { addQuestion } from './addQuestion';
 import { Component, OnInit } from '@angular/core';
 import { OnlineTestService } from '../online-test.service';
 
@@ -11,6 +12,7 @@ export class SharedQuestionbankComponent implements OnInit {
   constructor(private service: OnlineTestService) {}
   public questinArray = [];
   public Level: String;
+  public addQuestion = new addQuestion();
 
   ngOnInit(): void {}
   difficultyLevel(event) {
@@ -27,13 +29,11 @@ export class SharedQuestionbankComponent implements OnInit {
  
 
   checkbox() {
-    this.questinArray = this.getTheid();
-    if (this.Level == 'Easy') {
+    this.addQuestion.arr = this.getTheid();
+    this.addQuestion.level = this.Level;
+    this.service.addQuestionToUser(this.addQuestion).subscribe(()=>{
       
-    } else if (this.Level == 'Medium') {
-    } else if (this.Level == 'Difficult') {
-    }
-   console.log(this.questinArray);
+    })
    
     
   }

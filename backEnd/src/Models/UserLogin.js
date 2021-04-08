@@ -122,17 +122,17 @@ userSchema.methods.generateauthtoken = async function () {
   return token;
 };
 //fuction added to instance of a userschema to add questions
-userSchema.methods.addQuestiontouser = async function (
-  level_id,
-  difficultyLevel
-) {
-  if (difficultyLevel == "Easy") {
-    this.questions.Easy.push(level_id);
-  } else if (difficultyLevel == "Medium") {
-    this.questions.Medium.push(level_id);
-  } else if (difficultyLevel == "Difficult") {
-    this.questions.Difficult.push(level_id);
-  }
+userSchema.methods.addQuestiontouser = async function (arr, difficultyLevel) {
+  arr.forEach((element) => {
+    if (difficultyLevel == "Easy") {
+      this.questions.Easy.push(mongoose.Types.ObjectId(element));
+    } else if (difficultyLevel == "Medium") {
+      this.questions.Medium.push(mongoose.Types.ObjectId(element));
+    } else if (difficultyLevel == "Difficult") {
+      this.questions.Difficult.push(mongoose.Types.ObjectId(element));
+    }
+  });
+
   await this.save();
   return this.questions;
 };
