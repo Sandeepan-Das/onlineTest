@@ -10,7 +10,10 @@
     </div>
     
   </div>
-  <div class="card" *ngFor="let item of display_data">
+  <button (click)="checkbox()">Final!!!!</button>
+  <div class="card" *ngFor="let item of display_data; let i=index">
+    
+    <input type="checkbox" value="{{item._id}}"  id="{{i}}" >
     <div class="card-header">
       {{item.question}}
     </div>
