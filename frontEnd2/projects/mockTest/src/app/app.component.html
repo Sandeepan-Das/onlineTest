@@ -51,9 +51,9 @@
         href="#list-messages"
         role="tab"
         aria-controls="messages"
-        [routerLink]="['/FetchQuestion']"
+        [routerLink]="['/FetchMybank']"
         routerLinkActive="router-link-active"
-        >View Question Bank</a
+        >View My Question Bank</a
       >
       <a
         class="list-group-item list-group-item-action"
@@ -65,6 +65,17 @@
         [routerLink]="['/shareQuestion']"
         routerLinkActive="router-link-active"
         >View Shared Question Bank</a
+      >
+      <a
+        class="list-group-item list-group-item-action"
+        id="list-messages-list"
+        data-toggle="list"
+        href="#list-messages"
+        role="tab"
+        aria-controls="messages"
+        [routerLink]="['/FetchQuestion']"
+        routerLinkActive="router-link-active"
+        >View Question Selected</a
       >
       <a
         class="list-group-item list-group-item-action"

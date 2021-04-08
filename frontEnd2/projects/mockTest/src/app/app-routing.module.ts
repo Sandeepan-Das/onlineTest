@@ -14,6 +14,7 @@ const routes: Routes = [
   { path: 'add-question', component: QuestionBankComponent },
   { path: 'Login', component: LoginComponent },
   { path: 'FetchQuestion', component: ViewQuestionsComponent },
+  { path: 'FetchMybank', component: ViewQuestionsComponent },
   { path: 'createTest', component: CreateTestComponent },
   { path: 'mockTest', component: MockTestComponent },
   { path: 'AddStudents', component: StudListComponent },

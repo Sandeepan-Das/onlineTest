@@ -55,6 +55,22 @@ router.post("/addToUser", auth, async (req, res) => {
   console.log(req.body);
   const add = await user.addQuestiontouser(req.body.arr, req.body.level);
 });
+router.post("/delFromUser", auth, async (req, res) => {
+  let difficultyLevel = req.body.level;
+  let user = req.user;
+  let array1;
+  if (difficultyLevel == "Easy") {
+    user.questions.Easy=user.questions.Easy.filter((val) => !req.body.arr.includes(val.toString()));;
+  } else if (difficultyLevel == "Medium") {
+     user.questions.Medium= user.questions.Medium.filter((val) => !req.body.arr.includes(val.toString()));
+  } else if (difficultyLevel == "Difficult") {
+    user.questions.Difficult = user.questions.Difficult.filter((val) => !req.body.arr.includes(val.toString()));
+  }
+  
+  
+  await user.save();
+  res.send({});
+});
 //Creating a new user
 router.post("/users", async (req, res) => {
   req.body.unique = base_64.encode(req.body.email); //Unique identification for the teacher
@@ -82,7 +98,7 @@ router.post("/users/login", async (req, res) => {
   }
 });
 
-// To display questions
+// To display  questions for exam
 router.get("/test/getquestion/:difficultyLevel", auth, async (req, res) => {
   //What to reference inside userLogin in populate field
   let difficultyLevel = req.params.difficultyLevel;
@@ -99,13 +115,39 @@ router.get("/test/getquestion/:difficultyLevel", auth, async (req, res) => {
       }
     });
 });
+// To display user bank questions
+router.get("/test/getMyBank/:difficultyLevel", auth, async (req, res) => {
+  let difficultyLevel = req.params.difficultyLevel;
+  if (difficultyLevel == "Easy") {
+    const data = questionBankModel.easy.find(
+      { teacherId: mongoose.Types.ObjectId(req.user._id) },
+      (err, result) => {
+        res.send(result);
+      }
+    );
+  } else if (difficultyLevel == "Medium") {
+    const data = questionBankModel.medium.find(
+      { teacherId: mongoose.Types.ObjectId(req.user._id) },
+      (err, result) => {
+        res.send(result);
+      }
+    );
+  } else if (difficultyLevel == "Difficult") {
+    const data = questionBankModel.difficult.find(
+      { teacherId: mongoose.Types.ObjectId(req.user._id) },
+      (err, result) => {
+        res.send(result);
+      }
+    );
+  }
+});
 // To display all questions
 router.get("/test/getallquestion/:difficultyLevel", auth, async (req, res) => {
   //What to reference inside userLogin in populate field
   let difficultyLevel = req.params.difficultyLevel;
   if (difficultyLevel == "Easy") {
     const data = questionBankModel.easy.find(
-      { teacherId: { $ne: mongoose.Types.ObjectId(req.user._id)  } },
+      { teacherId: { $ne: mongoose.Types.ObjectId(req.user._id) } },
       (err, result) => {
         res.send(result);
       }
@@ -119,7 +161,7 @@ router.get("/test/getallquestion/:difficultyLevel", auth, async (req, res) => {
     );
   } else if (difficultyLevel == "Difficult") {
     const data = questionBankModel.difficult.find(
-      { teacherId: { $ne:mongoose.Types.ObjectId(req.user._id) } },
+      { teacherId: { $ne: mongoose.Types.ObjectId(req.user._id) } },
       (err, result) => {
         res.send(result);
       }

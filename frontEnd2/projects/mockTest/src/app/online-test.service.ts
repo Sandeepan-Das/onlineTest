@@ -39,6 +39,12 @@ export class OnlineTestService {
       this.authHeader
     );
   }
+  FetchMybank(value): Observable<any> {
+    return this.http.get(
+      'http://localhost:3000/api/test/getMyBank/' + value,
+      this.authHeader
+    );
+  }
   Fetchallquestion(value): Observable<any> {
     return this.http.get(
       'http://localhost:3000/api/test/getallquestion/' + value,
@@ -52,6 +58,14 @@ export class OnlineTestService {
       this.authHeader
     );
   }
+  delQuestion(value): Observable<any> {
+    return this.http.post(
+      'http://localhost:3000/api/delFromUser',
+      value,
+      this.authHeader
+    );
+  }
+  
   addQuestionToUser(value:addQuestion):Observable<any>{
     return this.http.post(
       'http://localhost:3000/api/addToUser',

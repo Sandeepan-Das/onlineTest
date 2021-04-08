@@ -10,7 +10,10 @@
   </div>
   
 </div>
-<button (click)="checkbox()">Final!!!!</button>
+
+<button type="button" class="btn btn-outline-danger" (click)="checkbox2()" *ngIf="expression">Delete Selected Questions</button>
+<button type="button" class="btn btn-outline-success" (click)="checkbox()" *ngIf="expression2">Submit Questions!!</button>
+
 <div class="card" *ngFor="let item of display_data; let i=index">
   <input type="checkbox" value="{{item._id}}"  id="{{i}}" >
   <div class="card-header">
