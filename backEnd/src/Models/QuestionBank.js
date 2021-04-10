@@ -32,6 +32,15 @@ const questionBankSchema = mongoose.Schema({
     teacherId:{
         type:mongoose.Schema.Types.ObjectId
         
+    },
+    year:{
+        type:String,
+    },
+    branch:{
+        type:String,
+    },
+    subject:{
+        type:String,
     }
 });
 
