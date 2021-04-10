@@ -10,43 +10,74 @@ import { Component, OnInit } from '@angular/core';
 export class ViewQuestionsComponent implements OnInit {
   public display_data = [];
   public questinArray = [];
-  public Level;
+  public level: String;
+  public yearS: String;
+  public branch: String;
+  public subject: String;
   public expression = false;
   public expression2 = false;
+  public expression3 = true;
+  public onlyBank = false;
   public addQuestion = new addQuestion();
   constructor(private service: OnlineTestService) {}
 
-  ngOnInit(): void {}
-  difficultyLevel(event) {
-    this.display_data = [];
-    this.Level = event.target.value;
+  ngOnInit(): void {
     if (window.location.pathname == '/FetchMybank') {
-      this.expression2 = true;
-      this.service.FetchMybank(event.target.value).subscribe((data) => {
-        data.forEach((element) => {
-          console.log(element);
-          this.display_data.push(element);
-        });
-      });
-    } else {
-      this.expression = true;
-      this.service.Fetchquestion(event.target.value).subscribe((data) => {
-        data.forEach((element) => {
-          console.log(element);
-          this.display_data.push(element);
-        });
-      });
+      this.onlyBank = true;
+      this.expression3 = true;
     }
+  }
+  difficultyLevel(event) {
+    this.reset();
+    this.display_data = [];
+    this.level = event.target.value;
+    if (window.location.pathname != '/FetchMybank') {
+      this.expression = true;
+      this.service
+        .Fetchquestion(this.level)
+        .subscribe((data) => {
+          data.forEach((element) => {
+            console.log(element);
+            this.display_data.push(element);
+          });
+        });
+    }
+  }
+  public reset() {
+    this.expression3 = true;
+    this.expression2 = false;
+    this.expression = false;
+    this.display_data = [];
+  }
+  fetchData() {
+    this.expression3 = false;
+
+    this.expression2 = true;
+    this.service
+      .FetchMybank(this.yearS, this.branch, this.subject, this.level)
+      .subscribe((data) => {
+        data.forEach((element) => {
+          console.log(element);
+          this.display_data.push(element);
+        });
+      });
+  }
+
+  year(event: any) {
+    this.reset();
+    this.yearS = event.target.value;
   }
   checkbox() {
     this.addQuestion.arr = this.getTheid();
-    this.addQuestion.level = this.Level;
+    this.addQuestion.level = this.level;
     this.service.addQuestionToUser(this.addQuestion).subscribe(() => {});
+    location.reload;
   }
   checkbox2() {
     this.addQuestion.arr = this.getTheid();
-    this.addQuestion.level = this.Level;
+    this.addQuestion.level = this.level;
     this.service.delQuestion(this.addQuestion).subscribe(() => {});
+    location.reload;
   }
   public getTheid() {
     var Arr = [];

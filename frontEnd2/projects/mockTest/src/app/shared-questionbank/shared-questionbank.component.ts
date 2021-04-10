@@ -11,34 +11,43 @@ export class SharedQuestionbankComponent implements OnInit {
   public display_data = [];
   constructor(private service: OnlineTestService) {}
   public questinArray = [];
-  public Level: String;
+  public level: String;
+  public yearS: String;
+  // public branch: String;
+  public subject: String;
   public addQuestion = new addQuestion();
+  public expression = true;
 
   ngOnInit(): void {}
   difficultyLevel(event) {
-    this.display_data = [];
-    this.Level = event.target.value;
-    console.log(this.Level);
-    this.service.Fetchallquestion(event.target.value).subscribe((data) => {
+    this.reset();
+    this.level = event.target.value;
+  }
+  year(event: any) {
+    this.reset();
+    this.yearS = event.target.value;
+  }
+  fetchData() {
+    this.expression = false
+    this.display_data=[];
+    this.service.Fetchallquestion(this.yearS,this.subject,this.level).subscribe((data) => {
       data.forEach((element) => {
-        // console.log(element)
         this.display_data.push(element);
       });
     });
-  }
- 
 
+  }
+  public reset(){
+    this.expression = true;
+    this.display_data=[];
+  }
   checkbox() {
     this.addQuestion.arr = this.getTheid();
-    this.addQuestion.level = this.Level;
-    this.service.addQuestionToUser(this.addQuestion).subscribe(()=>{
-      
-    })
-   
-    
+    this.addQuestion.level = this.level;
+    this.service.addQuestionToUser(this.addQuestion).subscribe(() => {});
   }
-  public getTheid(){
-   var Arr = [];
+  public getTheid() {
+    var Arr = [];
     for (let index = 0; index < this.display_data.length; index++) {
       var htmlElem = <HTMLInputElement>(
         document.getElementById(index.toString())

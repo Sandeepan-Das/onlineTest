@@ -6,6 +6,9 @@ export class questionFormat{
     public OptD:String;
     public ans:Number;
     public difficultyLevel:String;
+    public year:String;
+    public branch:String;
+    public subject:String;
     constructor(){
 
     }

@@ -9,7 +9,52 @@
     </select>
   </div>
 </div>
-<button type="button" class="btn btn-outline-success" (click)="checkbox()">Submit Questions!!</button>
+<div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <h5><p>Year</p></h5>
+    <select (change)="year($event)">
+      <option selected>Choose...</option>
+      <option>First</option>
+      <option>Second</option>
+      <option>Third</option>
+      <option>Fourth</option>
+    </select>
+  </div>
+</div>
+<!-- <div class="input-group mb-3">
+  <input
+    type="text"
+    class="form-control"
+    placeholder="Branch"
+    aria-label="Username"
+    aria-describedby="basic-addon1"
+    [(ngModel)]="branch"
+  />
+</div> -->
+<div class="input-group mb-3">
+  <input
+    type="text"
+    class="form-control"
+    placeholder="Subject"
+    aria-label="Username"
+    aria-describedby="basic-addon1"
+    [(ngModel)]="subject"
+  />
+</div>
+<ng-template #templateName>
+  <button type="button" class="btn btn-outline-success" (click)="checkbox()">
+    Submit Questions!!!!
+  </button>
+</ng-template>
+
+<button
+  type="button"
+  class="btn btn-outline-success"
+  (click)="fetchData()"
+  *ngIf="expression; else templateName"
+>
+  fetch Questions
+</button>
 
 <div class="card" *ngFor="let item of display_data; let i = index">
   <input type="checkbox" value="{{ item._id }}" id="{{ i }}" />

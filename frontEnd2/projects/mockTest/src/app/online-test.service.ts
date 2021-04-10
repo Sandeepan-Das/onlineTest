@@ -22,7 +22,6 @@ export class OnlineTestService {
   constructor(public http: HttpClient) {}
 
   async addQuestion(value: questionFormat) {
-    
     return await this.http
       .post('http://localhost:3000/api/questionBank', value, this.authHeader)
       .toPromise();
@@ -33,21 +32,22 @@ export class OnlineTestService {
   signUp(value: signUpformat): Observable<any> {
     return this.http.post('http://localhost:3000/api/users', value);
   }
-  Fetchquestion(value): Observable<any> {
+  Fetchquestion( level): Observable<any> {
     return this.http.get(
-      'http://localhost:3000/api/test/getquestion/' + value,
+      `http://localhost:3000/api/test/getquestion/${level}`,
       this.authHeader
     );
   }
-  FetchMybank(value): Observable<any> {
+  FetchMybank(year, branch, subject, level): Observable<any> {
     return this.http.get(
-      'http://localhost:3000/api/test/getMyBank/' + value,
+      `http://localhost:3000/api/test/getMyBank/${year}/${branch}/${subject}/${level}`,
       this.authHeader
     );
   }
-  Fetchallquestion(value): Observable<any> {
+  Fetchallquestion(year, subject, level): Observable<any> {
+    console.log();
     return this.http.get(
-      'http://localhost:3000/api/test/getallquestion/' + value,
+      `http://localhost:3000/api/test/getallquestion/${year}/${subject}/${level}`,
       this.authHeader
     );
   }
@@ -65,8 +65,8 @@ export class OnlineTestService {
       this.authHeader
     );
   }
-  
-  addQuestionToUser(value:addQuestion):Observable<any>{
+
+  addQuestionToUser(value: addQuestion): Observable<any> {
     return this.http.post(
       'http://localhost:3000/api/addToUser',
       value,
