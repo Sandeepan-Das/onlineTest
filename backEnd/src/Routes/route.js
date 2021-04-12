@@ -11,7 +11,8 @@ const auth = require("../middlewares/auth");
 
 //Requiring the questionBank Model
 const questionBankModel = require("../Models/QuestionBank");
-
+const qnaObj = require("../middlewares/qnaObj");
+const qnamodel = require("../Models/qna");
 //Requiring the user model
 const userLoginModel = require("../Models/UserLogin");
 const questionToSend = require("../testData/generatingTest");
@@ -109,12 +110,13 @@ router.post("/users/login", async (req, res) => {
         checkEmail.password
       );
     } else {
-      checkEmail = await userLoginModel.studentModel.findOne({
+      checkEmail = await userLoginModel.teacherModel.findOne({
         email: req.body.email,
       });
       user = await userLoginModel.teacherModel.findbyCredentials(
-        req.body.email,
-        req.body.password
+        checkEmail.email,
+        req.body.password,
+        checkEmail.password
       );
     }
 
@@ -239,8 +241,8 @@ router.get(
 //Route to pass test parameter  // may be remove no . of questions criteria
 router.post("/createTest", auth, async (req, res) => {
   const user = req.user;
-
-  await user.addCriteria(req.body, user);
+  qnaObj(req.body, user);
+  res.send({});
 });
 
 //Route for teacher to appear mock test
@@ -377,13 +379,11 @@ router.get("/Finaltest", verifyStud, async (req, res) => {
 
 //Route to initialize account
 router.post("/attemptTest", verifyStud, async (req, res) => {
-  const teacher = req.teacher;
-  let user = await studModel.findOneAndDelete({ email: req.studEmail });
+  let user = await studModel.findOne({ email: req.studEmail });
+  const question = await qnamodel({ year: user.year, branch: user.branch });
+  user.questions = question.questions;
 
-  user = new studModel({ email: req.studEmail });
-  user.questions = teacher.questions;
-
-  user.mockTest = teacher.mockTest;
+  user.mockTest = question.mockTest;
 
   await user.save();
 });

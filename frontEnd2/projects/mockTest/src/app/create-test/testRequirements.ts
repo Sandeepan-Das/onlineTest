@@ -1,19 +1,25 @@
 export class testRequirements {
-    public totalQuestions = " "
+    public totalQuestions = ""
     public timeLimit = {
-        Easy: " ",
-        Medium: " ",
-        Difficult: " ",
+        Easy: "",
+        Medium: "",
+        Difficult: "",
     }
     public eachType = {
-        Easy: " ",
-        Medium: " ",
-        Difficult: " ",
+        Easy: "",
+        Medium: "",
+        Difficult: "",
     }
     public marks = {
-        Easy: " ",
-        Medium: " ",
-        Difficult: " ",
+        Easy: "",
+        Medium: "",
+        Difficult: "",
+    }
+    public studRequirement = {
+        year:"",
+        branch:"",
+        subject:"",
+        startTime:"",
     }
     constructor() { }
 
