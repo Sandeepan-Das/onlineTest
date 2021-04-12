@@ -100,6 +100,6 @@ studSchema.methods.updateAnswer = async function (level, arg, questionNo) {
   await this.save();
 };
 
-const studModel = mongoose.model("studentList", studSchema);
+// const studModel = mongoose.model("studentList", studSchema);
 
-module.exports = studModel;
+// module.exports = studModel;

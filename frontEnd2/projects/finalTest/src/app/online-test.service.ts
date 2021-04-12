@@ -1,3 +1,5 @@
+import { signUpformat } from './sign/signUpformat';
+import { loginFormat } from './sign/loginFormat';
 import { Observable, throwError } from 'rxjs';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -15,6 +17,12 @@ export class OnlineTestService {
   };
 
   constructor(public http: HttpClient) {}
+  login(value: loginFormat): Observable<any> {
+    return this.http.post('http://localhost:3000/api/users/login', value);
+  }
+  signUp(value: signUpformat): Observable<any> {
+    return this.http.post('http://localhost:3000/api/users', value);
+  }
 
   mockTest(value): Observable<any> {
     return this.http.get(`http://localhost:3000/api/Finaltest${value}`);

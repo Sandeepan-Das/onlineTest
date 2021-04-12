@@ -3,4 +3,6 @@ export class signUpformat{
     public name;
     public password;
     public role;
+    public year;
+    public branch;
 }

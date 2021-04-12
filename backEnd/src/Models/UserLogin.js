@@ -100,11 +100,15 @@ const userSchema = mongoose.Schema({
       },
     ],
   },
-  studList: [
-    {
-      type: String,
-    },
-  ],
+  year:{
+    type:String,
+  },
+  branch:{
+    type:String,
+  },
+  role: {
+    type: String,
+  },
 });
 // console.log("A",questionModel.medium);
 // userSchema.virtual("questions",{
@@ -118,7 +122,7 @@ userSchema.methods.generateauthtoken = async function () {
   const token = jwt.sign({ _id: this._id }, "sandy");
   this.tokens.push({ token: token });
   await this.save();
-  // console.log(token)
+  
   return token;
 };
 //fuction added to instance of a userschema to add questions
@@ -138,19 +142,20 @@ userSchema.methods.addQuestiontouser = async function (arr, difficultyLevel) {
 };
 
 //Verifying registered user
-userSchema.statics.findbyCredentials = async (email, password) => {
-  const checkEmail = await userModel.findOne({ email });
-
-  if (!checkEmail) {
+userSchema.statics.findbyCredentials = async (email, password,storedPassword) => {
+ 
+  if (!email) {
     throw new Error("Wrong Email");
   }
+  
 
   //comparing the string password and hashed password
-  const checkPassword = await bcrypt.compare(password, checkEmail.password);
+  const checkPassword = await bcrypt.compare(password, storedPassword);
+  
   if (!checkPassword) {
     throw new Error("Wrong Email or password");
   }
-  return checkEmail;
+  return email;
 };
 
 //using a middleware to hash the password
@@ -219,5 +224,9 @@ userSchema.methods.updateAnswer = async function (level, arg, questionNo) {
   await this.save();
 };
 
-const userModel = mongoose.model("User", userSchema);
-module.exports = userModel;
+const teacherModel = mongoose.model("User", userSchema);
+const studentModel = mongoose.model("studentList", userSchema);
+module.exports = {
+  teacherModel,
+  studentModel,
+};

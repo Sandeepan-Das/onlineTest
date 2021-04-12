@@ -79,7 +79,11 @@ router.post("/delFromUser", auth, async (req, res) => {
 //Creating a new user
 router.post("/users", async (req, res) => {
   req.body.unique = base_64.encode(req.body.email); //Unique identification for the teacher
-  userLogin = new userLoginModel(req.body);
+  if (req.body.role == "student") {
+    userLogin = new userLoginModel.studentModel(req.body);
+  } else {
+    userLogin = new userLoginModel.teacherModel(req.body);
+  }
   try {
     const data = await userLogin.save();
     res.send(data);
@@ -90,16 +94,34 @@ router.post("/users", async (req, res) => {
 
 //Login with already registered user
 router.post("/users/login", async (req, res) => {
-  // console.log(req.body)
+  let user;
+  let checkEmail;
+  console.log(req.body);
   try {
-    const user = await userLoginModel.findbyCredentials(
-      req.body.email,
-      req.body.password
-    );
-    const token = await user.generateauthtoken();
+    if (req.body.role == "student") {
+      checkEmail = await userLoginModel.studentModel.findOne({
+        email: req.body.email,
+      });
+
+      user = await userLoginModel.studentModel.findbyCredentials(
+        checkEmail.email,
+        req.body.password,
+        checkEmail.password
+      );
+    } else {
+      checkEmail = await userLoginModel.studentModel.findOne({
+        email: req.body.email,
+      });
+      user = await userLoginModel.teacherModel.findbyCredentials(
+        req.body.email,
+        req.body.password
+      );
+    }
+
+    const token = await checkEmail.generateauthtoken();
     res.send({ token });
   } catch (error) {
-    res.status(400).send(error);
+    res.status(405).send(error);
   }
 });
 
@@ -214,7 +236,7 @@ router.get(
   }
 );
 
-//Route to pass test parameter
+//Route to pass test parameter  // may be remove no . of questions criteria
 router.post("/createTest", auth, async (req, res) => {
   const user = req.user;
 
@@ -286,6 +308,7 @@ router.post("/mockTest/ans", auth, async (req, res) => {
 
   res.send({ marks });
 });
+
 router.post("/userTest/ans", verifyStud, async (req, res) => {
   const user = await studModel.findOne({ email: req.studEmail });
 

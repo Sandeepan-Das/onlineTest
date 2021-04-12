@@ -1,19 +1,20 @@
+import { Router } from '@angular/router';
 import { signUpformat } from './signUpformat';
 import { loginFormat } from './loginFormat';
-import { OnlineTestService } from './../online-test.service';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { OnlineTestService } from '../online-test.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  selector: 'app-sign',
+  templateUrl: './sign.component.html',
+  styleUrls: ['./sign.component.css']
 })
-export class LoginComponent implements OnInit {
+export class SignComponent implements OnInit {
+
   public hide = true;
 
   // public loading:boolean;
-  public login = new loginFormat();
+  public login = new loginFormat()
   public errorMessage;
 
   public signUp = new signUpformat();
@@ -22,7 +23,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
   submitSignup(){
     this.errorMessage = "";
-    this.signUp.role="teacher";
+    this.signUp.role = "student";
     this.service.signUp(this.signUp).subscribe((arg)=>{
       localStorage.setItem('token', arg.token);
     })
@@ -31,14 +32,14 @@ export class LoginComponent implements OnInit {
   submit() {
     
     this.errorMessage = '';
-    this.login.role="teacher";
+    this.login.role="student";
     this.service.login(this.login).subscribe(
       (arg) => {
         localStorage.setItem('token', arg.token);
         this.navigate_token();
       },
       (error) => {
-        this.errorMessage = 'Wrong Email or password';
+        this.errorMessage = error;
       }
     );
   }
@@ -51,4 +52,5 @@ export class LoginComponent implements OnInit {
       this.Router.navigate(['/']);
     }
   }
+
 }
