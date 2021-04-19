@@ -25,19 +25,23 @@ export class OnlineTestService {
   }
 
   mockTest(value): Observable<any> {
-    return this.http.get(`http://localhost:3000/api/Finaltest${value}`);
+    return this.http.get(`http://localhost:3000/api/Finaltest/${value}`,this.authHeader);
   }
 
   initial(value): Observable<any> {
     return this.http.post(
-      `http://localhost:3000/api/attemptTest${value}`,
-      value
+      `http://localhost:3000/api/attemptTest/${value}`,
+      value,
+      this.authHeader
     );
   }
   submitAns(value, routeV): Observable<any> {
     return this.http.post(
-      `http://localhost:3000/api/userTest/ans${routeV}`,
-      value
+      `http://localhost:3000/api/userTest/ans/${routeV}`,
+      value,this.authHeader
     );
+  }
+  fetchLink(): Observable<any> {
+    return this.http.get(`http://localhost:3000/api/link`, this.authHeader);
   }
 }

@@ -3,9 +3,10 @@ const userDb = require("../Models/UserLogin");
 const studDb = require("../Models/studFormat");
 
 let testCriteria = async (id) => {
-  var user = await userDb.findById(id, "questions testFormat mockTest");
+  console.log("a");
+  var user = await userDb.teacherModel.findById(id, "questions testFormat mockTest");
   if (user == null) {
-    user = await studDb.findById(id, "questions testFormat mockTest");
+    user = await userDb.studentModel.findById(id, "questions testFormat mockTest");
   }
 
   questionTypeArray = user.mockTest.levelArray;

@@ -8,6 +8,7 @@ const router = express.Router();
 
 const verifyStud = require("../middlewares/verifyStudent");
 const auth = require("../middlewares/auth");
+const authStud = require("../middlewares/authStud");
 
 //Requiring the questionBank Model
 const questionBankModel = require("../Models/QuestionBank");
@@ -311,8 +312,8 @@ router.post("/mockTest/ans", auth, async (req, res) => {
   res.send({ marks });
 });
 
-router.post("/userTest/ans", verifyStud, async (req, res) => {
-  const user = await studModel.findOne({ email: req.studEmail });
+router.post("/userTest/ans/:tcode", authStud, async (req, res) => {
+  const user = req.user;
 
   let marks = totalMarks(
     user.mockTest.answer,
@@ -325,9 +326,10 @@ router.post("/userTest/ans", verifyStud, async (req, res) => {
 });
 
 //Route to appear test by student
-router.get("/Finaltest", verifyStud, async (req, res) => {
-  const teacher = req.teacher;
-  let user = await studModel.findOne({ email: req.studEmail });
+router.get("/Finaltest/:tcode", authStud, async (req, res) => {
+  // const teacher = req.teacher;
+  // let user = await studModel.findOne({ email: req.studEmail });
+  let user = req.user;
   var data;
   var difficultyLevel;
   if (user.mockTest.attempted != user.mockTest.totalQuestions) {
@@ -378,12 +380,15 @@ router.get("/Finaltest", verifyStud, async (req, res) => {
 });
 
 //Route to initialize account
-router.post("/attemptTest", verifyStud, async (req, res) => {
-  let user = await studModel.findOne({ email: req.studEmail });
-  const question = await qnamodel({ year: user.year, branch: user.branch });
+router.post("/attemptTest/:tcode",authStud, async (req, res) => {
+  const user = req.user;
+  // let user = await studModel.findOne({ email: req.studEmail });
+  const question = await qnamodel.findOne({ year: user.year, branch: user.branch });
+  console.log(question)
   user.questions = question.questions;
 
   user.mockTest = question.mockTest;
+  
 
   await user.save();
 });
@@ -394,6 +399,12 @@ router.get("/AddStudList/:studEmail", auth, async (req, res) => {
   user.studList.push(req.params.studEmail);
   user.save();
   res.sendStatus(200);
+});
+
+router.get("/link", authStud, async (req, res) => {
+  const link = await qnamodel.find({ year: req.user.year, branch: req.user.branch });
+  console.log(link);
+  res.send(link);
 });
 
 module.exports = router;

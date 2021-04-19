@@ -8,12 +8,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TestFormatComponent } from './test-format/test-format.component';
 import { SignComponent } from './sign/sign.component';
+import { LinkComponent } from './link/link.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TestFormatComponent,
     SignComponent,
+    LinkComponent,
     
   ],
   imports: [

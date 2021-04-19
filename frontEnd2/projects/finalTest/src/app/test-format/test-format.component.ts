@@ -23,7 +23,7 @@ export class TestFormatComponent implements OnInit {
 
   ngOnInit(): void {
     this.initial = true;
-    this.service.initial(location.href.split('/')[4]).subscribe((arg) => {});
+    this.service.initial(window.location.pathname.split("/")[3]).subscribe((arg) => {});
   }
   submit() {
     console.log(this.answer);
@@ -37,7 +37,7 @@ export class TestFormatComponent implements OnInit {
   setUp() {
     clearInterval(this.interval);
 
-    this.service.mockTest(location.href.split('/')[4]).subscribe(
+    this.service.mockTest(window.location.pathname.split("/")[3]).subscribe(
       (arg) => {
         this.importing_values(arg);
         this.interval = setInterval(() => {
@@ -46,7 +46,7 @@ export class TestFormatComponent implements OnInit {
       },
       (error) => {
         this.service
-          .submitAns(this.answer, location.href.split('/')[4])
+          .submitAns(this.answer, window.location.pathname.split("/")[3])
           .subscribe((marks) => {
             this.finalMark = marks.marks;
           });

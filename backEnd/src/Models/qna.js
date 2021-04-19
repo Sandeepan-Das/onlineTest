@@ -79,6 +79,12 @@ const schema = mongoose.Schema({
   branch: {
     type: String,
   },
+  startTime: {
+    type: String,
+  },
+  subject: {
+    type: Number,
+  },
   url: {
     type: String,
   },
