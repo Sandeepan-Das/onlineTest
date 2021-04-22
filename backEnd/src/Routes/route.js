@@ -1,14 +1,16 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const jwt = require("jsonwebtoken");
 const base_64 = require("base-64");
-const url = require("url");
+
 
 const router = express.Router();
 
-const verifyStud = require("../middlewares/verifyStudent");
 const auth = require("../middlewares/auth");
 const authStud = require("../middlewares/authStud");
+
+//Code for Socket Io
+// const io = require("../../app")
+
 
 //Requiring the questionBank Model
 const questionBankModel = require("../Models/QuestionBank");
@@ -18,10 +20,11 @@ const qnamodel = require("../Models/qna");
 const userLoginModel = require("../Models/UserLogin");
 const questionToSend = require("../testData/generatingTest");
 const totalMarks = require("../testData/checkAnswer");
-const studModel = require("../Models/studFormat");
+const { request } = require("../..");
+
 
 router.get("/me", auth, async (req, res) => {
-  res.send(req.user);
+  res.send({unique:req.user.unique});
 });
 
 //Adding a new question in db
@@ -384,13 +387,14 @@ router.post("/attemptTest/:tcode",authStud, async (req, res) => {
   const user = req.user;
   // let user = await studModel.findOne({ email: req.studEmail });
   const question = await qnamodel.findOne({ year: user.year, branch: user.branch });
-  console.log(question)
+  
   user.questions = question.questions;
 
   user.mockTest = question.mockTest;
   
 
   await user.save();
+  res.send({meetLink:question.videoLink})
 });
 
 //Adding Student Email ID
@@ -403,8 +407,20 @@ router.get("/AddStudList/:studEmail", auth, async (req, res) => {
 
 router.get("/link", authStud, async (req, res) => {
   const link = await qnamodel.find({ year: req.user.year, branch: req.user.branch });
-  console.log(link);
   res.send(link);
 });
 
+//IO connection
+// io.on("connection",socket=>{
+//   console.log(socket)
+//   socket.on("join-room",(roomID,userID)=>{
+//     console.log(roomID,userID)
+//   })
+// // })
+// io.on("connection", (socket) => {
+//   console.log("socket Connected");
+//   socket.on("join-room", (roomID) => {
+//     console.log(roomID);
+//   });
+// })
 module.exports = router;

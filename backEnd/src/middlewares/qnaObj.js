@@ -83,9 +83,12 @@ const qnaModel = {
     type: String,
   },
   subject: {
-    type: Number,
+    type: String,
   },
   url: {
+    type: String,
+  },
+  videoLink: {
     type: String,
   },
 };
@@ -130,6 +133,7 @@ async function saveQna(params, user) {
     " "
   );
   qnaModel.url = `http://localhost:4200/test/${user.unique}`
+  qnaModel.videoLink = user.unique;
   const template = new model(qnaModel);
   template.save();
 }

@@ -83,9 +83,12 @@ const schema = mongoose.Schema({
     type: String,
   },
   subject: {
-    type: Number,
+    type: String,
   },
   url: {
+    type: String,
+  },
+  videoLink: {
     type: String,
   },
 });

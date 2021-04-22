@@ -102,4 +102,13 @@ export class OnlineTestService {
       this.authHeader
     );
   }
+  fetchMe():Observable<any>{
+    return this.http.get(
+      `http://localhost:3000/api/me`,
+      this.authHeader
+    );
+  }
+  fetchLink(): Observable<any> {
+    return this.http.get(`http://localhost:3000/api/link`, this.authHeader);
+  }
 }

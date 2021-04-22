@@ -16,6 +16,7 @@ import { CreateTestComponent } from './create-test/create-test.component';
 import { MockTestComponent } from './mock-test/mock-test.component';
 import { StudListComponent } from './stud-list/stud-list.component';
 import { SharedQuestionbankComponent } from './shared-questionbank/shared-questionbank.component';
+import { VideoComponent } from './video/video.component';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { SharedQuestionbankComponent } from './shared-questionbank/shared-questi
     MockTestComponent,
     StudListComponent,
     SharedQuestionbankComponent,
+    VideoComponent,
     
     
     

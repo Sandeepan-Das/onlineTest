@@ -1,3 +1,4 @@
+import { VideoComponent } from './video/video.component';
 import { SharedQuestionbankComponent } from './shared-questionbank/shared-questionbank.component';
 import { StudListComponent } from './stud-list/stud-list.component';
 import { MockTestComponent } from './mock-test/mock-test.component';
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'mockTest', component: MockTestComponent },
   { path: 'AddStudents', component: StudListComponent },
   { path: 'shareQuestion', component: SharedQuestionbankComponent },
+  { path: 'studentMonitor', component: VideoComponent },
   { path: '', component: StudListComponent },
   { path: ' ', component: AppComponent },
 ];

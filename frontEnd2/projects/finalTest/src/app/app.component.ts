@@ -21,6 +21,7 @@ export class AppComponent {
         this.Login = false;
       }
     } else {
+      console.log(window.location.pathname.split("/")[2])
       this.finalTest = true;
     }
   }
