@@ -21,6 +21,10 @@ export class testRequirements {
         subject:"",
         startTime:"",
     }
+    public testFixture = {
+        date:"",
+        startTime:"",
+    }
     constructor() { }
 
 }

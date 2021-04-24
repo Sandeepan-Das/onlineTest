@@ -54,7 +54,7 @@ const schema = mongoose.Schema({
     ],
     timeLimit: [
       {
-        type: Number,
+        type: String,
       },
     ],
     marks: [
@@ -80,6 +80,9 @@ const schema = mongoose.Schema({
     type: String,
   },
   startTime: {
+    type: String,
+  },
+  date: {
     type: String,
   },
   subject: {

@@ -2,13 +2,15 @@ import { OnlineTestService } from './../online-test.service';
 import { questionFormat } from './pattern';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
+import { ActivatedRoute } from '@angular/router';
 declare var Peer: any;
+
 // import { Socket } from 'ngx-socket-io';
 const mediaConstraint = {
   audio: true,
   video: {
-    width: 120,
-    height: 120,
+    width: 220,
+    height: 220,
   },
 };
 @Component({
@@ -28,26 +30,38 @@ export class TestFormatComponent implements OnInit {
   public selectedAns;
   public displayMark = false;
   public finalMark;
-  public initial = true;
+  public initial = false;
   public meetLink;
   public localStream: MediaStream;
   public peer;
   public UserID;
+  public examDate;
+  public examTime;
+  public currDate;
+  public currTime;
+  public countDownTimerX;
+  public miliDist;
   @ViewChild('videoGrid') video: ElementRef;
 
-  constructor(private service: OnlineTestService) {
+  constructor(
+    private service: OnlineTestService,
+    private Route: ActivatedRoute
+  ) {
     this.socket = io('http://localhost:3000', {
       transports: ['websocket', 'polling', 'flashsocket'],
     });
   }
 
   ngOnInit(): void {
-    this.initial = true;
-    
+    const params = new URLSearchParams(window.location.search);
     this.service
-      .initial(window.location.pathname.split('/')[3])
+      .initial(params.get('subj'), params.get('tcode'))
       .subscribe((arg) => {
         this.meetLink = arg.meetLink;
+        this.examDate = arg.date;
+        this.examTime = arg.startTime;
+
+        this.checkDateandTime();
         this.requestMedia();
       });
   }
@@ -66,8 +80,14 @@ export class TestFormatComponent implements OnInit {
       (arg) => {
         this.importing_values(arg);
         this.interval = setInterval(() => {
-          this.submit();
-        }, this.time);
+          this.miliDist = this.miliDist - 1000;
+          this.calcVal(this.miliDist);
+
+          if (this.miliDist <= 0) {
+            this.submit();
+            clearInterval(this.interval);
+          }
+        }, 1000);
       },
       (error) => {
         this.service
@@ -91,7 +111,12 @@ export class TestFormatComponent implements OnInit {
     this.pattern.OptD = arg.questionDetails.OptD;
     this.pattern.marks = arg.marks;
     this.pattern.timeLimit = arg.timeLimit;
-    this.time = Number(this.pattern.timeLimit) * 1000;
+    this.time =
+      Number(arg.timeLimit.split(':')[0]) * 60 * 60 * 1000 +
+      Number(arg.timeLimit.split(':')[1]) * 60 * 1000 +
+      Number(arg.timeLimit.split(':')[2]) * 1000;
+    this.miliDist = this.time;
+    this.calcVal(this.miliDist);
   }
   onSelect(event) {
     this.selectedAns = event;
@@ -114,7 +139,6 @@ export class TestFormatComponent implements OnInit {
       this.setUppeer();
       this.appendVideo(videoElem, this.localStream);
     });
-    
   }
   private appendVideo(videoElem, stream) {
     videoElem.srcObject = stream;
@@ -128,7 +152,7 @@ export class TestFormatComponent implements OnInit {
     const videoElem = document.createElement('video');
     videoElem.muted = true;
     const call = this.peer.call(this.UserID, this.localStream);
-    
+
     // call.on('stream', (userVideoStream) => {
     //   this.appendVideo(videoElem, userVideoStream);
     // });
@@ -142,11 +166,10 @@ export class TestFormatComponent implements OnInit {
       port: 9000,
     });
     this.peer.on('open', (id) => {
-      console.log('my id' + id);
       this.service.sendTestMessage(this.meetLink, id);
       this.socket.on('user-connected', (useruniqID) => {
         this.UserID = useruniqID;
-        console.log(useruniqID)
+
         this.newUserMedia();
       });
       // this.service.receiveID()
@@ -159,8 +182,37 @@ export class TestFormatComponent implements OnInit {
       //   this.appendVideo(videoElem, userVideoStream);
       // });
     });
-
-    console.log('peer');
   }
-  public addStream() {}
+  public checkDateandTime() {
+    const examD = new Date(
+      this.examDate.split('-')[0],
+      Number(this.examDate.split('-')[1]) - 1,
+      this.examDate.split('-')[2],
+      this.examTime.split(':')[0],
+      this.examTime.split(':')[1]
+    ).getTime();
+
+    this.countDownTimerX = setInterval(() => {
+      var now = new Date().getTime();
+      var distance = examD - now;
+      if (distance < 0) {
+        this.initial = true;
+        clearInterval(this.countDownTimerX);
+      } else {
+        this.calcVal(distance);
+      }
+    }, 1000);
+  }
+  public calcVal(distance) {
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor(
+      (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    // Display the result in the element with id="demo"
+    document.getElementById('demo').innerHTML =
+      days + 'd ' + hours + 'h ' + minutes + 'm ' + seconds + 's ';
+  }
 }

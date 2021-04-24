@@ -7,7 +7,7 @@ import { SignComponent } from './sign/sign.component';
 const routes: Routes = [
   {path:"students/signUp",component:SignComponent},
   {path:"exam/fetchLink",component:LinkComponent},
-  {path:"test/:id",component:TestFormatComponent},
+  {path:"test",component:TestFormatComponent},
 
 ];
 

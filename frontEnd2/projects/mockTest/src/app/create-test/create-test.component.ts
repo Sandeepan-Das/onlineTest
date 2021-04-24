@@ -17,7 +17,7 @@ export class CreateTestComponent implements OnInit {
 
   }
   submit() {
-    //  this.test.totalQuestions = parseInt(this.test.totalQuestions) 
+    
     console.log(this.test)
     this.service.createTest(this.test).subscribe(arg => {
 

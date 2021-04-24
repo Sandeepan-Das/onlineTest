@@ -36,9 +36,9 @@ export class OnlineTestService {
     );
   }
 
-  initial(value): Observable<any> {
+  initial(subj,value): Observable<any> {
     return this.http.post(
-      `http://localhost:3000/api/attemptTest/${value}`,
+      `http://localhost:3000/api/attemptTest/${subj}/${value}`,
       value,
       this.authHeader
     );

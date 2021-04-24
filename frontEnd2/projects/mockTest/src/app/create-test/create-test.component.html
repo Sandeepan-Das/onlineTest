@@ -11,15 +11,15 @@
         <h3 style="text-align: center;">Time Limit</h3>
         <div class="inputfield">
             <label>Easy</label>
-            <input type="text" class="input" [(ngModel)]="test.timeLimit.Easy">
+            <input type="time" step="2" class="input" [(ngModel)]="test.timeLimit.Easy">
         </div>
         <div class="inputfield">
             <label>Medium</label>
-            <input type="text" class="input" [(ngModel)]="test.timeLimit.Medium">
+            <input type="time" step="2" class="input" [(ngModel)]="test.timeLimit.Medium">
         </div>
         <div class="inputfield">
             <label>Difficult</label>
-            <input type="text" class="input" [(ngModel)]="test.timeLimit.Difficult">
+            <input type="time" step="2" class="input" [(ngModel)]="test.timeLimit.Difficult">
         </div>
         <hr>
         <h3 style="text-align: center;">No. Of questions of each type</h3>
@@ -62,10 +62,15 @@
             <label>Subject</label>
             <input type="text" class="input" [(ngModel)]="test.studRequirement.subject">
         </div>
+        <h3 style="text-align: center;">Exam Fixture</h3>
         <div class="inputfield">
-            <label>Start Time</label>
-            <input type="text" class="input" [(ngModel)]="test.studRequirement.startTime">
-        
+            <label>Date</label>
+            <input type="date" class="input" [(ngModel)]="test.testFixture.date">
+        </div>
+        <div class="inputfield">
+            <label>Time</label>
+            <input type="time" class="input" [(ngModel)]="test.testFixture.startTime">
+        </div>
         <!-- <div class="inputfield">
             <label>Email Address</label>
             <input type="text" class="input">

@@ -13,16 +13,15 @@ export class AppComponent {
   constructor() {}
 
   ngOnInit(): void {
-    
-    if (window.location.pathname.split("/")[2] != 'test') {
-      
+    console.log(window.location.pathname);
+    const path = window.location.pathname;
+    if (path == '/test' || window.location.pathname == '/student/test') {
+      this.finalTest = true;
+    } else {
       this.hide_login = true;
       if (localStorage.getItem('token')) {
         this.Login = false;
       }
-    } else {
-      console.log(window.location.pathname.split("/")[2])
-      this.finalTest = true;
     }
   }
   login() {

@@ -2,7 +2,6 @@ const express = require("express");
 const mongoose = require("mongoose");
 const base_64 = require("base-64");
 
-
 const router = express.Router();
 
 const auth = require("../middlewares/auth");
@@ -10,7 +9,6 @@ const authStud = require("../middlewares/authStud");
 
 //Code for Socket Io
 // const io = require("../../app")
-
 
 //Requiring the questionBank Model
 const questionBankModel = require("../Models/QuestionBank");
@@ -22,9 +20,8 @@ const questionToSend = require("../testData/generatingTest");
 const totalMarks = require("../testData/checkAnswer");
 const { request } = require("../..");
 
-
 router.get("/me", auth, async (req, res) => {
-  res.send({unique:req.user.unique});
+  res.send({ unique: req.user.unique });
 });
 
 //Adding a new question in db
@@ -383,18 +380,26 @@ router.get("/Finaltest/:tcode", authStud, async (req, res) => {
 });
 
 //Route to initialize account
-router.post("/attemptTest/:tcode",authStud, async (req, res) => {
+router.post("/attemptTest/:subj/:tcode", authStud, async (req, res) => {
   const user = req.user;
+  console.log(req.params.subj)
   // let user = await studModel.findOne({ email: req.studEmail });
-  const question = await qnamodel.findOne({ year: user.year, branch: user.branch });
-  
+  const question = await qnamodel.findOne({
+    year: user.year,
+    branch: user.branch,
+    subject: req.params.subj,
+  });
+
   user.questions = question.questions;
 
   user.mockTest = question.mockTest;
-  
 
   await user.save();
-  res.send({meetLink:question.videoLink})
+  res.send({
+    meetLink: question.videoLink,
+    startTime: question.startTime,
+    date: question.date,
+  });
 });
 
 //Adding Student Email ID
@@ -406,7 +411,10 @@ router.get("/AddStudList/:studEmail", auth, async (req, res) => {
 });
 
 router.get("/link", authStud, async (req, res) => {
-  const link = await qnamodel.find({ year: req.user.year, branch: req.user.branch });
+  const link = await qnamodel.find({
+    year: req.user.year,
+    branch: req.user.branch,
+  });
   res.send(link);
 });
 

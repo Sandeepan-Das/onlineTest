@@ -81,7 +81,7 @@ const userSchema = mongoose.Schema({
     ],
     timeLimit: [
       {
-        type: Number,
+        type: String,
       },
     ],
     marks: [

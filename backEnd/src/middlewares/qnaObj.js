@@ -54,7 +54,7 @@ const qnaModel = {
     ],
     timeLimit: [
       {
-        type: Number,
+        type: String,
       },
     ],
     marks: [
@@ -85,6 +85,9 @@ const qnaModel = {
   subject: {
     type: String,
   },
+  date: {
+    type: String,
+  },
   url: {
     type: String,
   },
@@ -101,7 +104,8 @@ async function saveQna(params, user) {
   qnaModel.year = params.studRequirement.year;
   qnaModel.branch = params.studRequirement.branch;
   qnaModel.subject = params.studRequirement.subject;
-  qnaModel.startTime = Number(params.studRequirement.startTime);
+  qnaModel.date = params.testFixture.date;
+  qnaModel.startTime = params.testFixture.startTime;
   qnaModel.mockTest.levelArray = [
     Number(params.eachType.Easy),
     Number(params.eachType.Medium),
@@ -132,9 +136,10 @@ async function saveQna(params, user) {
   qnaModel.mockTest.sequence = new Array(Number(params.totalQuestions)).fill(
     " "
   );
-  qnaModel.url = `http://localhost:4200/test/${user.unique}`
+  qnaModel.url = `http://localhost:4200/test?subj=${params.studRequirement.subject}&tcode=${user.unique}`
   qnaModel.videoLink = user.unique;
   const template = new model(qnaModel);
+  console.log(template)
   template.save();
 }
 module.exports = saveQna;
