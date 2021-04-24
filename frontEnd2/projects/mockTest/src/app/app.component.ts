@@ -24,7 +24,7 @@ export class AppComponent {
   logout(){
     this.hide_login = true;
     localStorage.removeItem("token")
-    this.ngOnInit();
+    window.location.reload();
   }
 
 

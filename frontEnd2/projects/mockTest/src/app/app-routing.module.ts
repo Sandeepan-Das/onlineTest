@@ -1,3 +1,4 @@
+import { DashBoardComponent } from './dash-board/dash-board.component';
 import { VideoComponent } from './video/video.component';
 import { SharedQuestionbankComponent } from './shared-questionbank/shared-questionbank.component';
 import { StudListComponent } from './stud-list/stud-list.component';
@@ -12,6 +13,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
+  {path:"",redirectTo:"/home",pathMatch:"full"},
+  {path:"home",component:DashBoardComponent},
   { path: 'add-question', component: QuestionBankComponent },
   { path: 'Login', component: LoginComponent },
   { path: 'FetchQuestion', component: ViewQuestionsComponent },

@@ -13,7 +13,7 @@ export class AppComponent {
   constructor() {}
 
   ngOnInit(): void {
-    console.log(window.location.pathname);
+    
     const path = window.location.pathname;
     if (path == '/test' || window.location.pathname == '/student/test') {
       this.finalTest = true;
@@ -26,10 +26,11 @@ export class AppComponent {
   }
   login() {
     this.hide_login = false;
+    
   }
   logout() {
     this.hide_login = true;
     localStorage.removeItem('token');
-    this.ngOnInit();
+    window.location.reload()
   }
 }

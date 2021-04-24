@@ -25,13 +25,15 @@
   <div class="col-4">
     <div class="list-group" id="list-tab" role="tablist">
       <a
-        class="list-group-item list-group-item-action active"
-        id="list-home-list"
+        class="list-group-item list-group-item-action"
+        id="list-profile-list"
         data-toggle="list"
-        href="#list-home"
+        href="#list-profile"
         role="tab"
-        aria-controls="home"
-        >DashBoard</a
+        aria-controls="profile"
+        [routerLink]="['/home']"
+        routerLinkActive="router-link-active"
+        >Dashboard</a
       >
       <a
         class="list-group-item list-group-item-action"
@@ -110,7 +112,7 @@
         routerLinkActive="router-link-active"
         >Create Test</a
       >
-      <a
+      <!-- <a
         class="list-group-item list-group-item-action"
         id="list-settings-list"
         data-toggle="list"
@@ -120,7 +122,7 @@
         [routerLink]="['/mockTest']"
         routerLinkActive="router-link-active"
         >Mock Test</a
-      >
+      > -->
     </div>
   </div>
   <div class="col-8">

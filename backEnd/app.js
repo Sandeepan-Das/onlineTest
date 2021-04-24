@@ -9,11 +9,14 @@ const io = socketio(server);
 const port = process.env.PORT || 3000;
 
 io.on("connection", (socket) => {
-  console.log("socket Connected");
+  
   socket.on("join-room", (roomID,userId) => {
-    console.log(roomID,userId)
+    
     socket.join(roomID);
     socket.broadcast.emit("user-connected",userId)
+    socket.on("disconnect",()=>{
+      socket.broadcast.emit("user-disconnected",userId)
+    })
   });
 });
 

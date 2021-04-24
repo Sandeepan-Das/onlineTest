@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/mockTest",
+            "outputPath": "../backEnd/dist/mockTest",
             "index": "projects/mockTest/src/index.html",
             "main": "projects/mockTest/src/main.ts",
             "polyfills": "projects/mockTest/src/polyfills.ts",
@@ -130,7 +130,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/finalTest",
+            "outputPath": "../backEnd/dist/finalTest",
             "index": "projects/finalTest/src/index.html",
             "main": "projects/finalTest/src/main.ts",
             "polyfills": "projects/finalTest/src/polyfills.ts",

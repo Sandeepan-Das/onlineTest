@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit {
     this.signUp.role="teacher";
     this.service.signUp(this.signUp).subscribe((arg)=>{
       localStorage.setItem('token', arg.token);
+      window.location.reload();
     })
   }
 
@@ -48,7 +49,7 @@ export class LoginComponent implements OnInit {
 
   public navigate_token() {
     if (localStorage.getItem('token') != null) {
-      this.Router.navigate(['/']);
+      window.location.href = "/"
     }
   }
 }

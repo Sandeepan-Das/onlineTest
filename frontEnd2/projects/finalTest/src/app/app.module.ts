@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { TestFormatComponent } from './test-format/test-format.component';
 import { SignComponent } from './sign/sign.component';
 import { LinkComponent } from './link/link.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 // const config: SocketIoConfig = { url: 'http://localhost:3000', options: {path:"api"} };
 
 @NgModule({
@@ -18,6 +19,7 @@ import { LinkComponent } from './link/link.component';
     TestFormatComponent,
     SignComponent,
     LinkComponent,
+    DashboardComponent,
     
   ],
   imports: [

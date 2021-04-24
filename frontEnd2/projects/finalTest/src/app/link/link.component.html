@@ -2,14 +2,18 @@
   <thead class="thead-dark">
     <tr>
       <th scope="col">#</th>
+      <th scope="col">Date</th>
       <th scope="col">Subject</th>
+      <th scope="col">Time</th>
       <th scope="col">Link</th>
     </tr>
   </thead>
   <tbody *ngFor="let item of data;let i = index">
     <tr>
       <th scope="row">{{i+1}}</th>
+      <td>{{item.date}}</td>
       <td>{{item.subject}}</td>
+      <td>{{item.startTime}}</td>
       <td><a href="{{item.url}}">{{item.url}}</a></td>
     </tr>
   </tbody>

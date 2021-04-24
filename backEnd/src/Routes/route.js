@@ -29,11 +29,11 @@ router.post("/questionBank", auth, async (req, res) => {
   let level;
 
   let user = req.user;
-  console.log(req.body);
+  
   req.body.teacherId = req.user._id;
   req.body.teacherName = req.user.name;
   if (req.body.difficultyLevel == "Easy") {
-    // console.log("A");
+    
     level = new questionBankModel.easy(req.body);
   } else if (req.body.difficultyLevel == "Medium") {
     level = new questionBankModel.medium(req.body);
@@ -54,7 +54,7 @@ router.post("/questionBank", auth, async (req, res) => {
 
 router.post("/addToUser", auth, async (req, res) => {
   let user = req.user;
-  console.log(req.body);
+  
   const add = await user.addQuestiontouser(req.body.arr, req.body.level);
 });
 router.post("/delFromUser", auth, async (req, res) => {
@@ -98,7 +98,7 @@ router.post("/users", async (req, res) => {
 router.post("/users/login", async (req, res) => {
   let user;
   let checkEmail;
-  console.log(req.body);
+  
   try {
     if (req.body.role == "student") {
       checkEmail = await userLoginModel.studentModel.findOne({
@@ -260,7 +260,7 @@ router.get("/mockTest/testParameter", auth, async (req, res) => {
       difficultyLevel = data.level;
       marks = data.marks;
       timeLimit = data.timeLimit;
-      console.log(arg);
+      
     });
     await user
       .populate(`questions.${difficultyLevel}`)
@@ -382,7 +382,7 @@ router.get("/Finaltest/:tcode", authStud, async (req, res) => {
 //Route to initialize account
 router.post("/attemptTest/:subj/:tcode", authStud, async (req, res) => {
   const user = req.user;
-  console.log(req.params.subj)
+  
   // let user = await studModel.findOne({ email: req.studEmail });
   const question = await qnamodel.findOne({
     year: user.year,
@@ -414,21 +414,10 @@ router.get("/link", authStud, async (req, res) => {
   const link = await qnamodel.find({
     year: req.user.year,
     branch: req.user.branch,
-  });
+  },{subject:1,url:1,date:1,startTime:1});
+  
   res.send(link);
 });
 
-//IO connection
-// io.on("connection",socket=>{
-//   console.log(socket)
-//   socket.on("join-room",(roomID,userID)=>{
-//     console.log(roomID,userID)
-//   })
-// // })
-// io.on("connection", (socket) => {
-//   console.log("socket Connected");
-//   socket.on("join-room", (roomID) => {
-//     console.log(roomID);
-//   });
-// })
+
 module.exports = router;

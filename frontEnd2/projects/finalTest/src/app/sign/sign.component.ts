@@ -7,39 +7,39 @@ import { OnlineTestService } from '../online-test.service';
 @Component({
   selector: 'app-sign',
   templateUrl: './sign.component.html',
-  styleUrls: ['./sign.component.css']
+  styleUrls: ['./sign.component.css'],
 })
 export class SignComponent implements OnInit {
-
   public hide = true;
 
   // public loading:boolean;
-  public login = new loginFormat()
+  public login = new loginFormat();
   public errorMessage;
 
   public signUp = new signUpformat();
   constructor(public service: OnlineTestService, public Router: Router) {}
 
   ngOnInit(): void {}
-  submitSignup(){
-    this.errorMessage = "";
-    this.signUp.role = "student";
-    this.service.signUp(this.signUp).subscribe((arg)=>{
+  submitSignup() {
+    this.errorMessage = '';
+    this.signUp.role = 'student'; //role student added in backEnd
+    this.service.signUp(this.signUp).subscribe((arg) => {
       localStorage.setItem('token', arg.token);
-    })
+      window.location.reload()
+    });
   }
 
   submit() {
-    
     this.errorMessage = '';
-    this.login.role="student";
+    this.login.role = 'student';
     this.service.login(this.login).subscribe(
       (arg) => {
         localStorage.setItem('token', arg.token);
+
         this.navigate_token();
       },
       (error) => {
-        this.errorMessage = error;
+        this.errorMessage = 'Wrong Email or password';
       }
     );
   }
@@ -49,8 +49,7 @@ export class SignComponent implements OnInit {
 
   public navigate_token() {
     if (localStorage.getItem('token') != null) {
-      this.Router.navigate(['/']);
+      window.location.href="/";
     }
   }
-
 }

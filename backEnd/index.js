@@ -10,6 +10,8 @@ const app = express();
 const route = require("./src/Routes/route")
 
 //MIDDLEWARES
+// app.use(express.static("dist/mockTest"))
+// app.use(express.static("dist/finalTest"))
 app.use(cors()) 
 app.use(express.json());
 app.use("/api",route);
