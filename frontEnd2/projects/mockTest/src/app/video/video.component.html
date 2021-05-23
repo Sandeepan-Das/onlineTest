@@ -1,1 +1,12 @@
-<div #videoGrid style="display: grid;grid-template-columns: repeat(2,1fr);grid-gap: 20px;"></div>
+<div
+  #videoGrid
+  style="display: grid; grid-template-columns: repeat(2, 1fr); grid-gap: 20px"
+>
+</div>
+
+<div class="input-group mb-3" *ngIf="message">
+    <input type="text" class="form-control" placeholder="Type Your message" aria-label="Type Your message" aria-describedby="button-addon2" [(ngModel)]="messagetoStud">
+    <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="sendMsg()">Send</button>
+  </div>
+
+ 

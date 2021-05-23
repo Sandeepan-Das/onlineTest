@@ -41,7 +41,11 @@ export class TestFormatComponent implements OnInit {
   public currTime;
   public countDownTimerX;
   public miliDist;
+  public messagetoTeacher;
+  public count_msg=0;
+  public teacherConnection;
   @ViewChild('videoGrid') video: ElementRef;
+  @ViewChild('message_chat') chatBox: ElementRef;
 
   constructor(
     private service: OnlineTestService,
@@ -168,11 +172,24 @@ export class TestFormatComponent implements OnInit {
     this.peer.on('open', (id) => {
       this.service.sendTestMessage(this.meetLink, id);
       this.socket.on('user-connected', (useruniqID) => {
+        
         this.UserID = useruniqID;
 
         this.newUserMedia();
       });
       // this.service.receiveID()
+    });
+    this.peer.on('connection',  (conn)=> {
+      this.teacherConnection = conn.peer
+      
+      conn.on('open',  ()=> {
+        // Receive messages
+        conn.on('data',  (data)=> {
+          // this.messageFromTeacher = data;
+          this.count_msg++;
+          this.appendChat(data,0);
+        });
+      });
     });
     this.peer.on('call', (call) => {
       call.answer(this.localStream);
@@ -182,6 +199,21 @@ export class TestFormatComponent implements OnInit {
       //   this.appendVideo(videoElem, userVideoStream);
       // });
     });
+  }
+  public clear_count(){
+    this.count_msg=0;
+  }
+  public appendChat(data,condition){
+    const pElem = document.createElement("p")
+    pElem.innerText = data;
+    if(condition == 0 ){
+      pElem.style.color = "green";
+      pElem.style.left = "auto"
+    } else{
+      pElem.style.color = "red";
+      pElem.style.textAlign = "right"
+    }
+    this.chatBox.nativeElement.append(pElem)
   }
   public checkDateandTime() {
     const examD = new Date(
@@ -214,5 +246,15 @@ export class TestFormatComponent implements OnInit {
     // Display the result in the element with id="demo"
     document.getElementById('demo').innerHTML =
       days + 'd ' + hours + 'h ' + minutes + 'm ' + seconds + 's ';
+  }
+  public sendMsg(){
+    var conn = this.peer.connect(this.teacherConnection);
+    conn.on('open',  ()=> {
+
+      
+      conn.send(this.messagetoTeacher);
+      this.appendChat(this.messagetoTeacher,1)
+      this.messagetoTeacher = " ";
+    });
   }
 }

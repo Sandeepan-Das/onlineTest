@@ -7,9 +7,7 @@ const mediaConstraint = {
   audio: true,
   video: true,
 };
-const peersObj = {
-
-}
+const peersObj = {};
 @Component({
   selector: 'app-video',
   templateUrl: './video.component.html',
@@ -21,6 +19,9 @@ export class VideoComponent implements OnInit {
   public roomLink;
   public peer;
   public UserID;
+  public message = false;
+  public messagetoStud;
+  public sendersID;
   public localStream: MediaStream;
   constructor(public service: OnlineTestService) {
     this.socket = io('http://localhost:3000', {
@@ -29,7 +30,7 @@ export class VideoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(window.location.pathname);
+    
     this.service.fetchMe().subscribe((data) => {
       this.roomLink = data.unique;
 
@@ -40,32 +41,54 @@ export class VideoComponent implements OnInit {
     navigator.mediaDevices.getUserMedia(mediaConstraint).then((data) => {
       this.localStream = data;
       this.localStream.getTracks().forEach((track) => {
-        console.log('stop');
+        
         track.stop();
       });
       this.setUpPeer();
+    });
+  }
+  public sendMsg(){
+    var conn = this.peer.connect(this.sendersID);
+    conn.on('open',  ()=> {
+      // Receive messages
+      conn.on('data', function(data) {
+        console.log('Received', data);
+      });
+    
+      // Send messages
+      
+      conn.send(this.messagetoStud);
+      this.message=false
     });
   }
   public newUserMedia() {
     const videoElem = document.createElement('video');
     videoElem.muted = true;
     const call = this.peer.call(this.UserID, this.localStream);
-    console.log(call);
+    videoElem.id = call.peer;
+    
     call.on('stream', (userVideoStream) => {
       this.appendVideo(videoElem, userVideoStream);
     });
     call.on('close', () => {
       videoElem.remove();
     });
-    peersObj[this.UserID] = call
+    peersObj[this.UserID] = call;
   }
   private appendVideo(videoElem, stream) {
     videoElem.srcObject = stream;
+    
     videoElem.addEventListener('loadedmetadata', () => {
       videoElem.play();
     });
-
+    videoElem.addEventListener('click', (data) => {
+      this.message= true;
+      this.sendersID = videoElem.id;
+      
+    });
     this.video.nativeElement.append(videoElem);
+    
+    
   }
   public setUpPeer() {
     this.peer = new Peer(undefined, {
@@ -78,20 +101,23 @@ export class VideoComponent implements OnInit {
       this.socket.emit('join-room', this.roomLink, id);
       this.socket.on('user-connected', (useruniqID) => {
         this.UserID = useruniqID;
-        console.log(useruniqID);
+        
         this.newUserMedia();
       });
-      this.socket.on("user-disconnected",(useruniqID)=>{
-        if(peersObj[useruniqID]) peersObj[useruniqID].close()
-      })
+      this.socket.on('user-disconnected', (useruniqID) => {
+        if (peersObj[useruniqID]) peersObj[useruniqID].close();
+      });
       this.peer.on('call', (call) => {
         call.answer();
+        
         const videoElem = document.createElement('video');
         videoElem.muted = true;
+        videoElem.id = call.peer;
         call.on('stream', (userVideoStream) => {
+          
+          
           this.appendVideo(videoElem, userVideoStream);
         });
-
       });
       // this.service.receiveID()
     });
